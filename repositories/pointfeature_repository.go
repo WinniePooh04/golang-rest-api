@@ -11,11 +11,10 @@ import (
 func GetALlAccessPointFeatureswithFilter(filter interface{}) ([]models.PointFeature, error) {
 	var features []models.PointFeature
 	var pointFeature *models.PointFeature
-	mongoManger := database.GetMongoManager()
-	mongoClient := database.GetMongoManager().GetMongoAdapterClient()
-	defer mongoManger.DisconnectMongoClient()
 
-	collection := mongoClient.Database(os.Getenv("DB_DATABASE")).Collection(os.Getenv("MVP_ACCESS_COLLECTION"))
+	//defer database.GetMongoManager().DisconnectMongoClient()
+
+	collection := database.GetMongoManager().GetMongoAdapterClient().Database(os.Getenv("DB_DATABASE")).Collection(os.Getenv("MVP_ACCESS_COLLECTION"))
 	ctx := context.TODO()
 	cur, err := collection.Find(ctx, filter) //, options.Find().SetLimit(200)
 	if err != nil {
