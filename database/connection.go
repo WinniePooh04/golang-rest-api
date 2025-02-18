@@ -59,18 +59,18 @@ func (m *mongoManager) InitializeMongoAdapterClient() error {
 }
 
 // DisconnectMongoClient disconnects the MongoDB client
-func (m *mongoManager) DisconnectMongoClient() error {
+func (m *mongoManager) DisconnectMongoClient() {
 	if m.client != nil {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 		err := m.client.Disconnect(ctx)
 		if err != nil {
-			return err
+			log.Println(err)
 		}
 		m.client = nil
 		log.Println("Disconnected from MongoDB!")
 	}
-	return nil
+	return
 }
 
 func GetDBAdapter() *adapters.MongoAdapter {
